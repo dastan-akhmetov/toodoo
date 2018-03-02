@@ -49,7 +49,6 @@ export default {
     }
   },
   mounted () {
-    console.log(this.$refs.input)
     this.$refs.input.focus()
   },
   methods: {

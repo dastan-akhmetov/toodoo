@@ -4,20 +4,20 @@
       <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
         <span>Actions</span>
         <span class="icon is-small">
-        <i class="fas fa-angle-down" aria-hidden="true"></i>
+        <FontAwesomeIcon icon="angle-down"/>
       </span>
       </button>
     </div>
     <div class="dropdown-menu" id="dropdown-menu" role="menu">
       <div class="dropdown-content">
         <a href="#" class="dropdown-item" @click="onMarkItemAsDone">
-          <i class="fas fa-check-circle"></i> Mark as done
+          <FontAwesomeIcon icon="check-circle"/> Mark as done
         </a>
         <a class="dropdown-item" @click="onEdit">
-          <i class="fas fa-edit"></i> Edit
+          <FontAwesomeIcon icon="edit"/> Edit
         </a>
         <a href="#" class="dropdown-item" @click="onDelete">
-          <i class="fas fa-trash"></i> Delete
+          <FontAwesomeIcon icon="trash"/> Delete
         </a>
       </div>
     </div>
@@ -25,6 +25,7 @@
 </template>
 
 <script>
+import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
 export default {
   props: {
     item: {
@@ -35,6 +36,9 @@ export default {
       type: Function,
       required: true
     }
+  },
+  components: {
+    FontAwesomeIcon
   },
   data () {
     return {
