@@ -23,9 +23,7 @@
           </tr>
         </tfoot>
         <tbody>
-          <tr v-for="item in todoItems"
-              :key="item.id"
-          >
+          <tr v-for="item in todoItems" :key="item.id">
             <th>{{ item.id }}</th>
             <td>{{ item.title }}</td>
             <td>{{ item.formattedDate }}</td>
@@ -74,7 +72,7 @@ export default {
   computed: {
     todoItems () {
       return this.items.map(i => {
-        i.formattedDate = DateTime.fromMillis(i.date).toFormat('dd-MM-yyyy TT')
+        i.formattedDate = DateTime.fromMillis(i.date).toFormat('ff')
         i.priorityClass = ''
         switch (i.priority) {
           case 'Normal' : i.priorityClass = 'is-success'; break
