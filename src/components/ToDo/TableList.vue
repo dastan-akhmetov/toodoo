@@ -12,7 +12,7 @@
             <th>Actions</th>
           </tr>
         </thead>
-        <tfoot>
+        <tfoot v-if="todoItems.length > 3">
           <tr>
             <th>#</th>
             <th>Title</th>
