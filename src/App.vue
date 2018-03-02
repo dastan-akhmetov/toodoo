@@ -2,7 +2,7 @@
   <div>
     <Header></Header>
     <div class="container">
-      <AddToDoItem :on-change="onAddToDoItem" />
+      <AddToDoItem :on-change="onAddToDoItem" :last-id="lastId"/>
       <TabLists :on-change="onChangeTabList" />
       <ToDoListTable :items="filteredTabTodoItems" :on-change="onChangeItem" :on-delete="onDeleteItem" />
       <Pagination :items="filteredTodoItems" :on-page-change="onPageChange" :items-per-page="perPage"/>
@@ -29,6 +29,7 @@ export default {
   data () {
     return {
       todoItems: [],
+      lastId: 1,
       currentList: 'All',
       currentPage: 1,
       perPage: 5,
@@ -37,6 +38,7 @@ export default {
     }
   },
   created () {
+    this.getPersistedData()
     this.pageEndIndex = this.perPage
   },
   computed: {
@@ -47,9 +49,15 @@ export default {
           else if (this.currentList === 'In Progress') return i.isDone !== true
           else if (this.currentList === 'Finished') return i.isDone === true
         })
+        .sort((a, b) => a.isDone > b.isDone)
     },
     filteredTabTodoItems () {
       return this.filteredTodoItems.slice(this.pageStartIndex, this.pageEndIndex)
+    }
+  },
+  watch: {
+    todoItems (value) {
+      this.persistData(value)
     }
   },
   methods: {
@@ -74,6 +82,17 @@ export default {
       const found = this.todoItems.find(i => i.id === item.id)
       const indexOf = this.todoItems.indexOf(found)
       this.todoItems.splice(indexOf, 1)
+    },
+    persistData (items) {
+      window.localStorage.setItem('TooDoo/todoItems', JSON.stringify(items))
+    },
+    getPersistedData () {
+      const data = window.localStorage.getItem('TooDoo/todoItems')
+      if (data.length) {
+        this.todoItems = JSON.parse(data)
+        let lastId = this.todoItems.length ? this.todoItems[0].id : this.lastId
+        this.lastId = ++lastId
+      }
     }
   }
 }

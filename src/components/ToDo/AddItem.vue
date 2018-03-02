@@ -34,6 +34,10 @@ export default {
     onChange: {
       type: Function,
       required: true
+    },
+    lastId: {
+      type: Number,
+      required: true
     }
   },
   components: {
@@ -42,11 +46,13 @@ export default {
   data () {
     return {
       item: {
-        id: 1,
-        title: '',
-        priority: 'Normal'
+        id: this.lastId,
+        title: ''
       }
     }
+  },
+  created () {
+    this.id = this.lastId
   },
   mounted () {
     this.$refs.input.focus()
@@ -54,11 +60,11 @@ export default {
   methods: {
     onAdd () {
       if (this.item.title.length > 0) {
+        const tomorrow = Date.now() + (1000 * 60 * 60 * 24)
         const item = {
           id: this.item.id++,
           title: this.item.title,
-          priority: this.item.priority,
-          date: Date.now(),
+          dueDate: tomorrow,
           isDone: false
         }
         this.onChange(item)
@@ -67,7 +73,6 @@ export default {
     },
     flushItem () {
       this.item.title = ''
-      this.item.priority = 'Normal'
     }
   }
 }
