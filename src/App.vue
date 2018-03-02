@@ -31,10 +31,13 @@ export default {
       todoItems: [],
       currentList: 'All',
       currentPage: 1,
-      perPage: 3,
+      perPage: 5,
       pageStartIndex: 0,
-      pageEndIndex: 3
+      pageEndIndex: this.perPage
     }
+  },
+  created () {
+    this.pageEndIndex = this.perPage
   },
   computed: {
     filteredTodoItems () {
@@ -62,11 +65,9 @@ export default {
       this.todoItems.unshift(item)
     },
     onChangeItem (item) {
-      this.todoItems = this.todoItems.map(ti => {
-        if (ti.id === item.id) {
-          ti = item
-        }
-        return ti
+      this.todoItems = this.todoItems.map(todoItem => {
+        if (todoItem.id === item.id) todoItem = item
+        return todoItem
       })
     },
     onDeleteItem (item) {
