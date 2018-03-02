@@ -61,24 +61,41 @@ export default {
     onMarkItemAsDoneOrNot () {
       const item = {...this.item, isDone: !this.item.isDone}
       this.onMarkAsDone(item)
+      if (item.isDone) this.markAsDoneToast(item.title)
+      else this.markAsUndoneToast(item.title)
       this.toggle()
+    },
+    markAsDoneToast(title) {
+      this.$toast.open({
+        message: `Item "${title}" marked as done!`,
+        type: 'is-success'
+      })
+    },
+    markAsUndoneToast(title) {
+      this.$toast.open({
+        message: `Item "${title}" marked as undone!`,
+        type: 'is-danger'
+      })
     },
     onEditItem () {
       this.toggle()
     },
     onDeleteItem () {
-      this.confirmDelete()
+      this.confirmDelete(this.item.title)
     },
-    confirmDelete() {
+    confirmDelete(title) {
       this.$dialog.confirm({
-        title: 'Deleting todo item',
-        message: 'Are you sure you want to <b>delete</b> this todo item? This action cannot be undone.',
+        title: 'Deleting item',
+        message: `Are you sure you want to delete the item <b>"${title}"</b>? This action cannot be undone.`,
         confirmText: 'Delete Item',
         type: 'is-danger',
         hasIcon: true,
         onConfirm: () => {
           this.onDelete(this.item)
-          this.$toast.open('Item deleted!')
+          this.$toast.open({
+            message: `Item "${title}" deleted!`,
+            type: 'is-success'
+          })
           this.toggle()
         }
       })
