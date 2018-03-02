@@ -1,5 +1,15 @@
 import Vue from 'vue'
 import App from './App.vue'
+import Buefy from 'buefy'
+import 'buefy/lib/buefy.css'
+import FontAwesome from '@fortawesome/fontawesome'
+import faClock from '@fortawesome/fontawesome-free-solid/faClock'
+import faCheck from '@fortawesome/fontawesome-free-solid/faCheck'
+import faTasks from '@fortawesome/fontawesome-free-solid/faTasks'
+
+FontAwesome.library.add(faClock, faCheck, faTasks)
+
+Vue.use(Buefy)
 
 Vue.config.productionTip = false
 
