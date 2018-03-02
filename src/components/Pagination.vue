@@ -27,7 +27,7 @@ export default {
       required: true
     }
   },
-  data() {
+  data () {
     return {
       current: 1,
       perPage: this.itemsPerPage,
