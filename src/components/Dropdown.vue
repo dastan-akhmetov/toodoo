@@ -10,13 +10,18 @@
     </div>
     <div class="dropdown-menu" id="dropdown-menu" role="menu">
       <div class="dropdown-content">
-        <a href="#" class="dropdown-item" @click="onMarkItemAsDone">
-          <FontAwesomeIcon icon="check-circle"/> Mark as done
+        <a href="#" class="dropdown-item" @click="onMarkItemAsDoneOrNot">
+          <span v-if="!item.isDone">
+            <FontAwesomeIcon icon="check-circle"/> Mark as done
+          </span>
+          <span v-else>
+            <FontAwesomeIcon icon="ban"/> Mark as undone
+          </span>
         </a>
-        <a class="dropdown-item" @click="onEdit">
+        <a class="dropdown-item" @click="onEditItem">
           <FontAwesomeIcon icon="edit"/> Edit
         </a>
-        <a href="#" class="dropdown-item" @click="onDelete">
+        <a href="#" class="dropdown-item" @click="onDeleteItem">
           <FontAwesomeIcon icon="trash"/> Delete
         </a>
       </div>
@@ -35,6 +40,10 @@ export default {
     onMarkAsDone: {
       type: Function,
       required: true
+    },
+    onDelete: {
+      type: Function,
+      required: true
     }
   },
   components: {
@@ -49,16 +58,30 @@ export default {
     toggle () {
       this.className = this.className === 'is-active' ? '' : 'is-active'
     },
-    onMarkItemAsDone () {
-      const item = {...this.item, isDone: true}
-      this.onMarkAsDone(item, 'done')
+    onMarkItemAsDoneOrNot () {
+      const item = {...this.item, isDone: !this.item.isDone}
+      this.onMarkAsDone(item)
       this.toggle()
     },
-    onEdit () {
+    onEditItem () {
       this.toggle()
     },
-    onDelete () {
-      this.toggle()
+    onDeleteItem () {
+      this.confirmDelete()
+    },
+    confirmDelete() {
+      this.$dialog.confirm({
+        title: 'Deleting todo item',
+        message: 'Are you sure you want to <b>delete</b> this todo item? This action cannot be undone.',
+        confirmText: 'Delete Item',
+        type: 'is-danger',
+        hasIcon: true,
+        onConfirm: () => {
+          this.onDelete(this.item)
+          this.$toast.open('Item deleted!')
+          this.toggle()
+        }
+      })
     }
   }
 }
