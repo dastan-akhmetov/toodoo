@@ -38,7 +38,7 @@
               <Status :item="item"/>
             </td>
             <td>
-              <Dropdown :item="item" :on-mark-as-done="onChange"/>
+              <Dropdown :item="item" :on-mark-as-done="onChange" :on-delete="onDelete"/>
             </td>
           </tr>
         </tbody>
